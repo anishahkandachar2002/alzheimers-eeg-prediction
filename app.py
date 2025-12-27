@@ -70,7 +70,8 @@ st.markdown("""
 
 # Initialize session state
 if 'predictor' not in st.session_state:
-    model_dir = r"c:\Users\Anisha\Desktop\isa-2\caueeg-dataset\csvcaueeg"
+    # Use the directory where this script is located (works on all platforms)
+    model_dir = os.path.dirname(os.path.abspath(__file__))
     try:
         st.session_state.predictor = AlzheimerPredictor(model_dir)
         st.session_state.model_loaded = True
