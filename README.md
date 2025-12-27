@@ -8,7 +8,7 @@ This project provides a complete pipeline for analyzing EEG data from the CAUEEG
 
 ## 🌐 Live Demo
 
-**Try the app**: [https://your-app-name.streamlit.app](https://your-app-name.streamlit.app)
+**Try the app**: [https://alzheimers-eeg-prediction-z5k5ysah6qknjqn2hdgeus.streamlit.app/)
 
 Upload your EEG files and get instant predictions!
 
