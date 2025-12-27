@@ -28,29 +28,48 @@ class AlzheimerPredictor:
         """
         self.model_dir = model_dir
         
-        # Load model
-        self.model = joblib.load(os.path.join(model_dir, 'alzheimer_model.pkl'))
-        
-        # Load scaler
-        self.scaler = joblib.load(os.path.join(model_dir, 'scaler.pkl'))
-        
-        # Load feature selector
-        self.selector = joblib.load(os.path.join(model_dir, 'feature_selector.pkl'))
-        
-        # Load metadata
-        with open(os.path.join(model_dir, 'model_metadata.json'), 'r') as f:
-            self.metadata = json.load(f)
-        
-        # Load selected features
-        with open(os.path.join(model_dir, 'selected_features.txt'), 'r') as f:
-            self.selected_features = [line.strip() for line in f.readlines()]
-        
-        self.stage_names = self.metadata['stage_names']
-        
-        print("Alzheimer's Stage Predictor Loaded Successfully!")
-        print(f"Model: {self.metadata['model_name']}")
-        print(f"Accuracy: {self.metadata['accuracy']:.4f}")
-        print(f"Number of features: {self.metadata['n_features']}")
+        try:
+            # Load model
+            model_path = os.path.join(model_dir, 'alzheimer_model.pkl')
+            if not os.path.exists(model_path):
+                raise FileNotFoundError(f"Model file not found: {model_path}")
+            self.model = joblib.load(model_path)
+            
+            # Load scaler
+            scaler_path = os.path.join(model_dir, 'scaler.pkl')
+            if not os.path.exists(scaler_path):
+                raise FileNotFoundError(f"Scaler file not found: {scaler_path}")
+            self.scaler = joblib.load(scaler_path)
+            
+            # Load feature selector
+            selector_path = os.path.join(model_dir, 'feature_selector.pkl')
+            if not os.path.exists(selector_path):
+                raise FileNotFoundError(f"Feature selector file not found: {selector_path}")
+            self.selector = joblib.load(selector_path)
+            
+            # Load metadata
+            metadata_path = os.path.join(model_dir, 'model_metadata.json')
+            if not os.path.exists(metadata_path):
+                raise FileNotFoundError(f"Metadata file not found: {metadata_path}")
+            with open(metadata_path, 'r') as f:
+                self.metadata = json.load(f)
+            
+            # Load selected features
+            features_path = os.path.join(model_dir, 'selected_features.txt')
+            if not os.path.exists(features_path):
+                raise FileNotFoundError(f"Selected features file not found: {features_path}")
+            with open(features_path, 'r') as f:
+                self.selected_features = [line.strip() for line in f.readlines()]
+            
+            self.stage_names = self.metadata['stage_names']
+            
+            print("Alzheimer's Stage Predictor Loaded Successfully!")
+            print(f"Model: {self.metadata['model_name']}")
+            print(f"Accuracy: {self.metadata['accuracy']:.4f}")
+            print(f"Number of features: {self.metadata['n_features']}")
+            
+        except Exception as e:
+            raise Exception(f"Failed to load model components: {str(e)}")
     
     def extract_features_from_edf(self, edf_file_path):
         """
@@ -267,7 +286,7 @@ def main():
     parser.add_argument('edf_file', type=str, help='Path to EDF file')
     parser.add_argument('--age', type=int, default=None, help='Patient age (optional)')
     parser.add_argument('--model_dir', type=str, 
-                       default=r'c:\Users\Anisha\Desktop\isa-2\caueeg-dataset\csvcaueeg',
+                       default=os.path.dirname(os.path.abspath(__file__)),
                        help='Directory containing model files')
     
     args = parser.parse_args()
