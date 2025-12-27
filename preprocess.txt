@@ -1,0 +1,31 @@
+1. PROCESSING EDF FILES AND EXTRACTING FEATURES...
+   Total patients to process: 1379
+Extracting features: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1379/1379 [45:10<00:00,  1.97s/it]
+
+   Successfully processed: 1106 patients
+   Skipped: 273 patients
+
+2. CREATING FEATURE DATAFRAME...
+   Total features extracted: 467
+   Total samples: 1106       
+
+3. HANDLING MISSING VALUES...
+   Missing values before: 0  
+   Missing values after: 0
+
+4. HANDLING INFINITE VALUES...
+
+5. SAVING PROCESSED DATA...
+   Saved to: c:\Users\Anisha\Desktop\isa-2\caueeg-dataset\csvcaueeg\processed_features.csv
+
+6. CLASS DISTRIBUTION:
+   Stage 0 - Normal/Control: 459 samples (41.5%)
+   Stage 1 - MCI (Early Stage): 417 samples (37.7%)
+   Stage 2 - Alzheimer's Dementia: 230 samples (20.8%)
+
+7. FEATURE STATISTICS:
+   Total features: 467
+   Feature types:
+   - Statistical features per channel: 11
+   - Spectral features per channel: 11 (5 bands + total + 5 relative)
+   - Global features: ~15

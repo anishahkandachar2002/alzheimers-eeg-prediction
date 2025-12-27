@@ -1,0 +1,51 @@
+name: Streamlit App CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Check for required files
+      run: |
+        echo "Checking for required model files..."
+        test -f alzheimer_model.pkl || echo "Warning: alzheimer_model.pkl not found"
+        test -f scaler.pkl || echo "Warning: scaler.pkl not found"
+        test -f feature_selector.pkl || echo "Warning: feature_selector.pkl not found"
+        test -f model_metadata.json || echo "Warning: model_metadata.json not found"
+        test -f selected_features.txt || echo "Warning: selected_features.txt not found"
+    
+    - name: Lint with flake8 (optional)
+      run: |
+        pip install flake8
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      continue-on-error: true
+    
+    - name: Test app imports
+      run: |
+        python -c "import streamlit; import pandas; import numpy; import sklearn; import mne; print('All imports successful!')"
+    
+    - name: Check Streamlit app syntax
+      run: |
+        python -m py_compile app.py
+        echo "App syntax check passed!"

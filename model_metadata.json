@@ -1,0 +1,15 @@
+{
+    "model_name": "Gradient Boosting",
+    "accuracy": 0.6036036036036037,
+    "f1_score": 0.6017934954935588,
+    "cv_mean": 0.5452426810477657,
+    "cv_std": 0.007958573211117611,
+    "n_features": 100,
+    "n_samples_train": 884,
+    "n_samples_test": 222,
+    "stage_names": {
+        "0": "Normal/Control",
+        "1": "MCI (Early Stage)",
+        "2": "Alzheimer's Dementia"
+    }
+}
